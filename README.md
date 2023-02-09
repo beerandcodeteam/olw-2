@@ -1,66 +1,64 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://banners.beyondco.de/OLW.png?theme=light&packageManager=&packageName=by+Beer+%26+Code&pattern=architect&style=style_1&description=OPEN+LARAVEL+WEEK&md=1&showWatermark=0&fontSize=100px&images=https%3A%2F%2Flaravel.com%2Fimg%2Flogomark.min.svg" width="650"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Instalando o projeto
 
-## About Laravel
+O projeto se utiliza de contêineres Docker, através do pacote *Laravel Sail* para facilitar a configuração do ambiente de desenvolvimento. Portanto, é necessário que já possua o Docker e o Docker Compose instalados na máquina.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Você é livre para rodar o projeto em ambiente local mas esse texto não tratará essa situação. 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Links para instalação e configuração de Docker:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [Windows](https://docs.docker.com/docker-for-windows/install/)
+- [Linux (Debian based)](https://docs.docker.com/engine/install/ubuntu/) 
 
-## Learning Laravel
+### Passos para o rodar o projeto localmente:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Faça um clone do projeto para sua máquina local
+- Crie um arquivo `.env`, recomendamos usar `.env-example` como base
+- Adicione ou altere as chaves conforme sua necessidade
+- acesse a pasta do projeto via console (terminal/PowerShell/CMD)
+- execute o comando:
+```shell
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php82-composer:latest \
+    composer install --ignore-platform-reqs
+ ```
+- Após finalizado processamento, execute o comando `./sail up -d`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+O primeiro comando realiza a instalação dos pacotes via composer especificados no arquivo `composer.json` e uma vez que a instalação termina, a pasta *vendor* passa a ficar disponível no projeto. O comando seguinte levanta os contêineres baseado na descrição de serviços feita no arquivo `docker-compose.yml`.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Por padrão, não é necessária nenhuma configuração no arquivo *.env* do projeto. Caso seja necessária alguma edição na configuração padrão (relacionado a binding ports ou credenciais de banco de dados), basta editar o arquivo *.env*. 
 
-## Laravel Sponsors
+# Trabalhando com Contêineres
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Uma vez que o projeto está rodando em cima de contêineres Docker, é clara a situação de que a máquina local não possui nenhum dos requisitos necessários para se trabalhar no projeto, assim, comandos como `php artisan`, `composer` ou `npm` não funcionarão localmente. Para executar comandos dentro de um dos contêineres do projeto, um `php artisan route:list` por exemplo, é preciso utilizar o docker para tal, como por exemplo:
 
-### Premium Partners
+```bash
+docker-compose exec \ #execução de um comando num contêiner existente
+    -u sail \ # especifica o nome do usuário a ser utilizado dentro do contêiner
+    projeto_laravel.test \ # especifica qual contêiner receberá o comando
+    php artisan route:list # qual o comando a ser executado
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+ A execução, dessa forma, se torna muito verbosa e trabalhosa, podendo levar a potenciais erros de execução. Assim, o *Laravel Sail* oferece um script chamado `sail` e localizado em *vendor/bin/*. Esse script permite que tais comandos sejam executados através de aliases para que o fluxo de desenvolvimento seja mais natural e menos complexo. Assim, para se executar o mesmo comando `php artisan route:list` com o script `sail` ficaria:
 
-## Contributing
+ ```bash
+ ./vendor/bin/sail artisan route:list
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+ #ou
 
-## Code of Conduct
+ ./vendor/bin/sail art route:list
+ ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Comandos disponíveis
 
-## Security Vulnerabilities
+Para conhecer os comandos disponíveis pelo script sail, execute `./vendor/bin/sail -h` para obter a listagem completa das opções com descrição.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Próximos passos
+Migrations são uma maneira de versionar as tabelas de sua base de dados. Para estruturar o seu banco de dados 
+- Execute `./vendor/bin/sail art migrate` para montar sua adicionar as tabelas ao seu banco
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Execute `./vendor/bin/sail art db:seed` para popular o seu banco com dados fictícios
