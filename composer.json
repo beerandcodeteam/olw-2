@@ -11,6 +11,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "livewire/livewire": "^2.11",
         "openai-php/laravel": "^0.3.1",
         "pestphp/pest": "^1.16",
         "pestphp/pest-plugin-laravel": "^1.1"

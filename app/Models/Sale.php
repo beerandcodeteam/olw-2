@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\status;
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,7 +21,7 @@ class Sale extends Model
     ];
 
     protected $casts = [
-        'status' => status::class
+        'status' => Status::class
     ];
 
     public function client(): BelongsTo
