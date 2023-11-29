@@ -56,6 +56,6 @@ RUN composer install --optimize-autoloader --no-dev
 RUN npm ci
 RUN npm run build
 
-EXPOSE 80
+EXPOSE 8000
 
 ENTRYPOINT ["start-container"]
