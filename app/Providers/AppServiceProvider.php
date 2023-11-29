@@ -25,14 +25,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $proxy_url = config('route.proxy_url');
-        $proxy_schema = config('route.proxy_schema');
+        $proxy_scheme = config('route.proxy_scheme');
 
         if (!empty($proxy_url)) {
             URL::forceRootUrl($proxy_url);
         }
 
         if (!empty($proxy_schema)) {
-            URL::forceSchema($proxy_schema);
+            URL::forceScheme($proxy_scheme);
         }
     }
 }
