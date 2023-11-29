@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceRootUrl($proxy_url);
         }
 
-        if (!empty($proxy_schema)) {
+        if (!empty($proxy_scheme)) {
             URL::forceScheme($proxy_scheme);
         }
     }
