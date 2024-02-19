@@ -2,8 +2,9 @@
 
 
 chown -R ec2-user:www-data "$PWD"
-sudo chmod -R ugo+rw /var/www/html/storage
-sudo chmod -R ugo+rw /var/www/html/bootstrap
+
+chown -R www-data:www-data "$PWD"/storage
+chown -R www-data:www-data "$PWD"/bootstrap
 
 composer install
 npm ci
