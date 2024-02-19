@@ -43,10 +43,10 @@ RUN apt-get update \
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.2
 
-COPY docker/8.2-prod/start-container /usr/local/bin/start-container
-COPY docker/8.2-prod/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY docker/8.2-prod/php.ini /etc/php/8.2/cli/conf.d/99-sail.ini
-COPY docker/8.2-prod/nginx.conf /etc/nginx/sites-enabled/default
+COPY docker/8.2-prod-ec2/start-container /usr/local/bin/start-container
+COPY docker/8.2-prod-ec2/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/8.2-prod-ec2/php.ini /etc/php/8.2/cli/conf.d/99-sail.ini
+COPY docker/8.2-prod-ec2/nginx.conf /etc/nginx/sites-enabled/default
 RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 80
