@@ -2,5 +2,8 @@
 
 
 chown -R ec2-user:www-data "$PWD"
+composer install
+npm ci
+npm run build
 
 exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
