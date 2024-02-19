@@ -2,6 +2,9 @@
 
 
 chown -R ec2-user:www-data "$PWD"
+sudo chmod -R ugo+rw /var/www/html/storage
+sudo chmod -R ugo+rw /var/www/html/bootstrap
+
 composer install
 npm ci
 npm run build
