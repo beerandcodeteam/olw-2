@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+
+chown -R www-data:www-data "$PWD"
+
+exec /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
