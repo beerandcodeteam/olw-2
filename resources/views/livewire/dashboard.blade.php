@@ -24,7 +24,7 @@
 
         <div class="flex flex-col space-y-2 w-full items-start">
             <textarea
-                wire:model.debounce.500ms="question"
+                wire:model.live.debounce.500ms="question"
                 class="w-full @error('question') border-red-500 @else border-gray-300 dark:border-gray-700 @enderror dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
             >
             </textarea>

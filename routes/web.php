@@ -3,7 +3,7 @@
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaleController;
-use App\Http\Livewire\Dashboard;
+use App\Livewire\Dashboard;
 use App\Models\SalesCommission;
 use Illuminate\Support\Facades\Route;
 use OpenAI\Laravel\Facades\OpenAI;
