@@ -19,7 +19,7 @@ class ClientFactory extends Factory
     {
         return [
             'address_id' => fake()->numberBetween(1, 10),
-            'user_id' => User::factory(),
+            'user_id' => User::factory()->create(['role_id' => 4]),
         ];
     }
 }
