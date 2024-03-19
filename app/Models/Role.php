@@ -6,22 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Company extends Model
+class Role extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'commission_rate',
         'name'
     ];
 
-    public function sellers(): HasMany
+    public function users(): HasMany
     {
-        return $this->hasMany(Seller::class);
-    }
-
-    public function clients(): HasMany
-    {
-        return $this->hasMany(Client::class);
+        return $this->hasMany(User::class);
     }
 }
