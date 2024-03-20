@@ -13,12 +13,12 @@
                     <livewire:table
                         resource="Client"
                         :columns="[
-                        ['label' => 'Client', 'column' => 'user.name'],
-                        ['label' => 'Email','column' => 'user.email'],
-                        ['label' => 'City', 'column' => 'address.city'],
-                        ['label' => 'State', 'column' => 'address.state'],
-                    ]
-                    "
+                            ['label' => 'Client', 'column' => 'user.name'],
+                            ['label' => 'Email','column' => 'user.email'],
+                            ['label' => 'City', 'column' => 'address.city'],
+                            ['label' => 'State', 'column' => 'address.state'],
+                        ]"
+                        :eager-loading="['user', 'address']"
                         edit="clients.edit"
                         delete="clients.destroy"
                     ></livewire:table>
