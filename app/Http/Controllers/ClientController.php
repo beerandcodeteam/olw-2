@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\RoleEnum;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
@@ -41,6 +42,7 @@ class ClientController extends Controller
     {
         DB::transaction(function() use($request) {
             $user = User::create([
+                'role_id' => RoleEnum::CLIENT,
                 'email' => $request->get('email'),
                 'name' => $request->get('name'),
                 'password' => Hash::make('123456')
