@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ImpersonateController extends Controller
 {
-    public function impersonate($user_id)
+    public function impersonate(git status$user_id)
     {
         $originalId = auth()->user()->id;
         session()->put('impersonate', $originalId);

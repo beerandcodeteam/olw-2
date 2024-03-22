@@ -1,9 +1,23 @@
 <?php
 
+use App\Enums\RoleEnum;
+use App\Models\Company;
+use App\Models\Seller;
 use App\Models\User;
+use Database\Seeders\CompanySeeder;
+use Database\Seeders\RoleSeeder;
+use function Pest\Laravel\seed;
+
+beforeEach(function() {
+    seed(RoleSeeder::class);
+    seed(CompanySeeder::class);
+});
 
 test('profile page is displayed', function () {
-    $user = User::factory()->create();
+    $user = User::factory()
+        ->state(['role_id' => RoleEnum::SELLER])
+        ->has(Seller::factory()
+            ->state(['company_id' => Company::first()->id]))->create();
 
     $response = $this
         ->actingAs($user)
@@ -13,7 +27,10 @@ test('profile page is displayed', function () {
 });
 
 test('profile information can be updated', function () {
-    $user = User::factory()->create();
+    $user = User::factory()
+        ->state(['role_id' => RoleEnum::SELLER])
+        ->has(Seller::factory()
+            ->state(['company_id' => Company::first()->id]))->create();
 
     $response = $this
         ->actingAs($user)
@@ -34,7 +51,10 @@ test('profile information can be updated', function () {
 });
 
 test('email verification status is unchanged when the email address is unchanged', function () {
-    $user = User::factory()->create();
+    $user = User::factory()
+        ->state(['role_id' => RoleEnum::SELLER])
+        ->has(Seller::factory()
+            ->state(['company_id' => Company::first()->id]))->create();
 
     $response = $this
         ->actingAs($user)
@@ -51,7 +71,10 @@ test('email verification status is unchanged when the email address is unchanged
 });
 
 test('user can delete their account', function () {
-    $user = User::factory()->create();
+    $user = User::factory()
+        ->state(['role_id' => RoleEnum::SELLER])
+        ->has(Seller::factory()
+            ->state(['company_id' => Company::first()->id]))->create();
 
     $response = $this
         ->actingAs($user)
@@ -64,11 +87,14 @@ test('user can delete their account', function () {
         ->assertRedirect('/');
 
     $this->assertGuest();
-    $this->assertNull($user->fresh());
+    $this->assertNotNull($user->deleted_at);
 });
 
 test('correct password must be provided to delete account', function () {
-    $user = User::factory()->create();
+    $user = User::factory()
+        ->state(['role_id' => RoleEnum::SELLER])
+        ->has(Seller::factory()
+            ->state(['company_id' => Company::first()->id]))->create();
 
     $response = $this
         ->actingAs($user)

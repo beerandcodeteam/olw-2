@@ -15,21 +15,25 @@ class RoleSeeder extends Seeder
     {
         $roles = [
             [
+                'id' => 1,
                 'name' => 'Admin',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
+                'id' => 2,
                 'name' => 'Manager',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
+                'id' => 3,
                 'name' => 'Seller',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
+                'id' => 4,
                 'name' => 'Client',
                 'created_at' => now(),
                 'updated_at' => now()

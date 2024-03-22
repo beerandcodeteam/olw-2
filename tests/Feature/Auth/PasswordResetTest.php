@@ -1,8 +1,19 @@
 <?php
 
+use App\Enums\RoleEnum;
+use App\Models\Company;
+use App\Models\Seller;
 use App\Models\User;
+use Database\Seeders\CompanySeeder;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Notification;
+use function Pest\Laravel\seed;
+
+beforeEach(function() {
+    seed(RoleSeeder::class);
+    seed(CompanySeeder::class);
+});
 
 test('reset password link screen can be rendered', function () {
     $response = $this->get('/forgot-password');
@@ -13,7 +24,10 @@ test('reset password link screen can be rendered', function () {
 test('reset password link can be requested', function () {
     Notification::fake();
 
-    $user = User::factory()->create();
+    $user = User::factory()
+        ->state(['role_id' => RoleEnum::SELLER])
+        ->has(Seller::factory()
+            ->state(['company_id' => Company::first()->id]))->create();
 
     $this->post('/forgot-password', ['email' => $user->email]);
 
@@ -23,7 +37,10 @@ test('reset password link can be requested', function () {
 test('reset password screen can be rendered', function () {
     Notification::fake();
 
-    $user = User::factory()->create();
+    $user = User::factory()
+        ->state(['role_id' => RoleEnum::SELLER])
+        ->has(Seller::factory()
+            ->state(['company_id' => Company::first()->id]))->create();
 
     $this->post('/forgot-password', ['email' => $user->email]);
 
@@ -39,7 +56,10 @@ test('reset password screen can be rendered', function () {
 test('password can be reset with valid token', function () {
     Notification::fake();
 
-    $user = User::factory()->create();
+    $user = User::factory()
+        ->state(['role_id' => RoleEnum::SELLER])
+        ->has(Seller::factory()
+            ->state(['company_id' => Company::first()->id]))->create();
 
     $this->post('/forgot-password', ['email' => $user->email]);
 
