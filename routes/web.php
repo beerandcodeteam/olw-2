@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaleController;
 use App\Livewire\Dashboard;
@@ -34,6 +35,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/clients', ClientController::class);
     Route::get('/sales', [SaleController::class, 'index']);
+
+    Route::get('/impersonate/{user_id}/login', [ImpersonateController::class, 'impersonate'])->middleware(['can:impersonate'])->name('impersonate');
+    Route::get('/impersonate/leaveImpersonating', [ImpersonateController::class, 'leaveImpersonating'])->middleware(['can:leave-impersonate'])->name('impersonate.leaveImpersonating');
 });
 
 Route::get('/sellers', Index::class)->middleware(['auth'])->name('sellers.index');
